@@ -9,9 +9,9 @@ import DoodleList
 data DoodlePool keyType doodle = DoodlePool keyType (Map keyType doodle) 
 
 instance Pool DoodlePool where
-    freshKey (DoodlePool lastKey doodles) = succ $ lastKey
+    freshKey (DoodlePool lastKey doodles) = succ lastKey
     get indx (DoodlePool lastKey doodles) = Data.Map.lookup indx doodles
-    set indx doodle (DoodlePool lastKey doodles) = DoodlePool lastKey $ Data.Map.insert indx doodle doodles
+    set indx doodle (DoodlePool lastKey doodles) = DoodlePool indx $ Data.Map.insert indx doodle doodles
 
 emptyDoodle = (DoodlePool 0 Data.Map.empty)::(DoodlePool Int (DoodleList Data.Time.UTCTime)) 
 
