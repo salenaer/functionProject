@@ -1,5 +1,4 @@
 import Data.Map
-import Data.Sequence
 import Data.Time
 
 import Doodle

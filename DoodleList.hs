@@ -1,8 +1,5 @@
 module DoodleList (DoodleList, DoodleTimeSlot) where
 
-import Data.Sequence
-import Data.Time.Clock
-
 import Doodle
 import Basic
 
@@ -19,6 +16,14 @@ toggleNameInNames toToggle namesList@(name:names)
 toggleNameInSlot::String -> DoodleTimeSlot t -> DoodleTimeSlot t
 toggleNameInSlot name (DoodleTimeSlot startTime endTime names) = 
     DoodleTimeSlot startTime endTime $ toggleNameInNames name names
+
+createSlotString :: (Show t)=>(DoodleTimeSlot t)->Int -> String
+createSlotString (DoodleTimeSlot begin end _) 0 =
+   "| "++ show begin ++ " | " ++ show end ++ " |\n"
+createSlotString (DoodleTimeSlot begin end names) size =
+   let 
+        sentence = foldr insertComma [] names in
+   "| "++ show begin ++ " | " ++ show end ++ " | " ++ sentence ++ Prelude.replicate (size - Prelude.length sentence) ' ' ++" |\n"
 
 data DoodleList timeType = DoodleList String [DoodleTimeSlot timeType]
 
@@ -46,14 +51,7 @@ instance (Show a)=>Show (DoodleList a) where
             makeSimpleLine size ++ "\n" ++ makeTitle name size ++
             foldr (++) (makeLine size) (map (\x->makeLine size ++ "\n" ++ createSlotString x size) slots)
 
-createSlotString :: (Show t)=>(DoodleTimeSlot t)->Int -> String
-createSlotString (DoodleTimeSlot begin end _) 0 =
-   "| "++ show begin ++ " | " ++ show end ++ " |\n"
-createSlotString (DoodleTimeSlot begin end names) size =
-   let sentence = unwords names in
-   "| "++ show begin ++ " | " ++ show end ++ " | " ++ sentence ++ Prelude.replicate (size - Prelude.length sentence) ' ' ++" |\n"  
-
 --calculates the amount of space necesairy to print all names
 length :: (Show t) => DoodleList t-> Int
 length (DoodleList name slots) = 
-    foldr max 0 [Prelude.length $ unwords names|DoodleTimeSlot _ _ names <-slots]
+    foldr max 0 [Prelude.length $ foldr insertComma [] names|DoodleTimeSlot _ _ names <-slots]
