@@ -50,7 +50,7 @@ instance Doodle DoodleList where
     toogle name n (DoodleList doodleName slots) = DoodleList doodleName $ toggleName name n slots
 
 instance (Show a)=>Show (DoodleList a) where
-    show doodle@(DoodleList name [])=""
+    show (DoodleList name [])=""
     show doodle@(DoodleList name slots)=
         let size = DoodleList.length doodle in
             makeSimpleLine size ++ "\n" ++ makeTitle name size ++

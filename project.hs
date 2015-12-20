@@ -5,7 +5,6 @@ import Doodle
 import Basic
 import DoodleList
 
-
 data DoodlePool keyType doodle = DoodlePool keyType (Map keyType doodle) 
 
 instance Pool DoodlePool where
@@ -24,3 +23,5 @@ main = run emptyDoodle
 --toevoegen aan doodle => Right indx
 --naam toevoegen = Just idx of slot
 --klaar = Nothing
+
+	

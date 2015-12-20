@@ -27,6 +27,7 @@ turn p (Left s)  = do d <- (populate $ initialize s)
                       let k = freshKey p
                       putStrLn $ "Doodle ID: " ++ show k
                       return $ set k d p
+                      
 turn p (Right k) = maybe (System.IO.putStrLn "Unknown doodle" >> return p)
                          (\d1 -> prompt "What is your name?"
                                         (turn p (Right k))
